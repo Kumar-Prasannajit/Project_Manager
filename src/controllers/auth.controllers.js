@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import { ApiResponse } from "../utils/api-response.js";
 import { ApiError } from "../utils/api-error.js";
 import { asyncHandler } from "../utils/async-handler.js";
-import {sendMail} from "../utils/mail.js";
+import {sendMail, emailVerificationMailgenContent, forgotPasswordMailgenContent} from "../utils/mail.js";
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -40,7 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
         }
     );
 
-    const { unHashedToken, hashedToken, TempTokenExpiry } = user.generateTemporaryToken();
+    const { unhashedToken, hashedToken, TempTokenExpiry } = user.generateTemporaryToken();
 
     user.emailVerificationToken = hashedToken;
     user.emailVerificationExpiry = TempTokenExpiry;
@@ -48,10 +48,10 @@ const registerUser = asyncHandler(async (req, res) => {
     await user.save({ validateBeforeSave: false });
 
     await sendMail({
-        email: user?.email,
+        to: user?.email,
         subject: "Email Verification - Project Manager",
         mailgenContent: emailVerificationMailgenContent(user?.username,
-            `${req.protocol}://${req.get("host")}/api/v1/auth/verify-email?token=${unHashedToken}`)
+            `${req.protocol}://${req.get("host")}/api/v1/auth/verify-email?token=${unhashedToken}`)
     });
 
     const createdUser = await User.findById(user._id).select(
