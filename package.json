@@ -1,0 +1,32 @@
+{
+  "name": "pind-daan",
+  "version": "1.0.0",
+  "description": "A platform to provide puja services online",
+  "keywords": [
+    "backend",
+    "API",
+    "creation"
+  ],
+  "license": "ISC",
+  "author": "kumar prasannajit",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "prettier": "3.8.0"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mailgen": "^2.0.32",
+    "mongoose": "^9.1.5",
+    "nodemailer": "^8.0.1"
+  }
+}
